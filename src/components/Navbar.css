@@ -1,0 +1,189 @@
+/* --- Estilos de la Barra de Navegación --- */
+.navbar {
+  background: #000000;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Contenedor que limita el ancho al mismo tamaño que el Detail */
+.navbar-container {
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 0 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Logo izquierda, buscador centro, iconos derecha */
+  gap: 20px;
+}
+
+/* Logo */
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e50914;
+  text-decoration: none;
+  flex-shrink: 0; /* Evita que el logo se achique */
+}
+
+/* Buscador Centrado */
+.navbar-search-wrapper {
+  flex-grow: 1;
+  max-width: 600px; /* Tamaño máximo del buscador */
+  position: relative;
+}
+
+.navbar-search {
+  width: 100%;
+  background: #141414;
+  border: 1px solid #333;
+  color: white;
+  padding: 8px 15px 8px 40px; /* Espacio para el icono de lupa */
+  border-radius: 20px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.navbar-search:focus {
+  border-color: #e50914;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+/* Iconos de la derecha */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 0.7rem;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #e50914;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #e50914;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+/* 🔥 BARRA DE CATEGORÍAS */
+.categories-bar {
+  display: flex;
+  gap: 15px;
+  padding: 10px 20px;
+  background: #0d0d0d;
+  overflow-x: auto;
+}
+
+/* LINKS */
+.category-link {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+
+.category-link:hover {
+  color: #e50914;
+}
+/* CONTENEDOR DROPDOWN */
+.dropdown {
+  position: relative;
+  cursor: pointer;
+}
+
+/* MENÚ */
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 150px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+/* ITEMS */
+.dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #e50914;
+  color: white;
+  border-radius: 5px;
+}
+.navbar {
+  overflow: visible;
+}
+.dropdown {
+  position: relative;
+}
+
+/* BOTÓN */
+.dropdown-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* MENÚ */
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+  min-width: 180px;
+  z-index: 999; 
+}
+
+/* ITEMS */
+.dropdown-item {
+  display: block;
+  padding: 8px 12px;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.dropdown-item:hover {
+  background: #e50914;
+  color: white;
+  border-radius: 5px;
+}

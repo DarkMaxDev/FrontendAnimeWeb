@@ -1,0 +1,47 @@
+.categoria-container {
+  padding: 30px;
+  color: #fff;
+}
+
+.categoria-title {
+  margin-bottom: 20px;
+}
+
+/* GRID */
+.categoria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.categoria-card {
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.categoria-card:hover {
+  transform: scale(1.05);
+}
+
+/* IMAGEN */
+.categoria-img {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111;
+}
+
+.categoria-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TITULO */
+.categoria-card h3 {
+  margin-top: 10px;
+  font-size: 14px;
+}

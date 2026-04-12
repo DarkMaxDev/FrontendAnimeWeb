@@ -1,0 +1,112 @@
+/* --- CONTENEDOR PRINCIPAL DE RESULTADOS --- */
+.search-results-container {
+  padding: 40px 5%;
+  background: #0a0a0a; /* Fondo oscuro consistente con el diseño */
+  min-height: 90vh; /* Asegura que ocupe casi todo el alto si hay pocos resultados */
+  color: white;
+  font-family: inherit; /* Hereda la fuente global */
+}
+
+/* --- TÍTULO DE RESULTADOS ("Resultados para: solo") --- */
+.results-title {
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.results-title span {
+  color: #e50914; /* Resaltamos la palabra buscada en rojo */
+}
+
+/* --- CUADRÍCULA DE ANIMES (EL CORAZÓN DEL AJUSTE) --- */
+.anime-grid {
+  display: grid;
+  /* Creamos columnas automáticas de mínimo 180px y máximo 1fr (espacio restante) */
+  /* El navegador calculará cuántas caben por fila (aprox 180px-220px cada una) */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px; /* Espacio entre tarjetas */
+  justify-items: center; /* Centramos las tarjetas dentro de su columna */
+}
+
+/* --- TARJETA DE ANIME INDIVIDUAL --- */
+.anime-card {
+  text-decoration: none; /* Quitamos el subrayado del enlace */
+  color: inherit; /* Mantenemos el color del texto blanco */
+  width: 100%; /* La tarjeta ocupa todo el ancho de su columna de la cuadrícula */
+  max-width: 220px; /* Limitamos el ancho máximo de la tarjeta (IMPORTANTE) */
+  transition: transform 0.2s; /* Pequeño efecto de escala al hover */
+  display: flex;
+  flex-direction: column; /* Apilamos imagen e info verticalmente */
+  border-radius: 8px;
+  overflow: hidden; /* Cortamos la imagen si se sale del borde redondeado */
+}
+
+.anime-card:hover {
+  transform: scale(1.03); /* Ligero aumento al pasar el mouse */
+}
+
+/* --- CONTENEDOR DE IMAGEN DE LA TARJETA --- */
+.card-image-wrapper {
+  position: relative; /* Para el overlay de play */
+  width: 100%;
+  padding-bottom: 140%; /* Proporción de aspecto vertical (poster) */
+  height: 0; /* Lo controla el padding-bottom */
+  overflow: hidden;
+  background-color: #000;
+  border-radius: 8px; /* Borde redondeado a la imagen */
+}
+
+.card-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* La imagen ocupa todo el ancho de la tarjeta */
+  height: 100%; /* La imagen ocupa todo el alto del contenedor */
+  object-fit: cover; /* Recorta la imagen para que llene el espacio sin deformarse (CRÍTICO) */
+  transition: opacity 0.3s;
+}
+
+/* --- TEXTO DEBAJO DE LA IMAGEN --- */
+.card-title {
+  font-size: 0.95rem;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-weight: 600;
+  color: #fff;
+  text-align: left; /* Alineamos a la izquierda */
+  /* Evitamos que el título rompa la tarjeta si es muy largo */
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.card-meta {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* --- MENSAJE DE "NO RESULTADOS" --- */
+.no-results {
+  grid-column: 1 / -1; /* Ocupa todo el ancho de la cuadrícula */
+  text-align: center;
+  margin-top: 60px;
+  color: #888;
+}
+
+.back-home {
+  display: inline-block;
+  margin-top: 25px;
+  color: #e50914;
+  text-decoration: none;
+  border: 1px solid #e50914;
+  padding: 10px 25px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.back-home:hover {
+  background-color: #e50914;
+  color: white;
+}

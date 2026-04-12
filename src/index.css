@@ -1,0 +1,68 @@
+/* --- CONFIGURACIÓN BASE --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a0a0a; /* Fondo más profundo para resaltar el video */
+  color: white;
+  overflow-x: hidden;
+}
+
+/* --- CLASES DE ESTRUCTURA (MOBILE FIRST) --- */
+
+/* Contenedor principal del detalle */
+.detail-layout {
+  display: flex;
+  flex-direction: column; /* En móvil: Video arriba, Sidebar abajo */
+  gap: 20px;
+  width: 100%;
+}
+
+/* Barra de Búsqueda */
+.search-bar {
+  width: 100%; 
+  order: 3; /* Se va al final en el menú de móvil */
+}
+
+/* --- MEDIA QUERIES (TABLETS Y PC) --- */
+
+/* Pantallas Medianas (A partir de 768px) */
+@media (min-width: 768px) {
+  .search-bar {
+    width: 350px !important; /* Ancho fijo en PC para que no se estire de más */
+    order: 0 !important;
+  }
+}
+
+/* Pantallas Grandes (A partir de 992px - Modo Cine) */
+@media (min-width: 992px) {
+  .detail-layout {
+    flex-direction: row !important; /* Aquí activamos las dos columnas */
+    align-items: flex-start;
+  }
+
+  /* El Sidebar recupera su ancho en PC */
+  aside {
+    width: 300px !important;
+    min-width: 300px !important;
+  }
+}
+
+/* --- AJUSTES CELULARES PEQUEÑOS --- */
+@media (max-width: 480px) {
+  h1 { 
+    font-size: 1.4rem !important; 
+  }
+  
+  .nav-logo { 
+    font-size: 1.1rem !important; 
+  }
+
+  button {
+    min-height: 48px; /* Altura ideal para dedos en pantallas táctiles */
+  }
+}

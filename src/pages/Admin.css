@@ -1,0 +1,215 @@
+/* FONDO GENERAL */
+.admin-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* 👈 importante */
+  gap: 40px;
+  padding: 40px;
+}
+
+/* FORM PANEL */
+.admin-form {
+  width: 380px;
+  background: rgba(24, 24, 24, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  transition: 0.3s;
+  height: auto;
+  align-self: flex-start;
+  max-height: fit-content;
+}
+
+.admin-form:hover {
+  transform: translateY(-3px);
+}
+
+/* TITULOS */
+.admin-form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+/* INPUTS */
+.admin-form input,
+.admin-form textarea {
+  padding: 10px;
+  background: #222;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+  border-color: red;
+  box-shadow: 0 0 5px rgba(255,0,0,0.5);
+  outline: none;
+}
+
+/* BOTONES */
+.btn-primary {
+  background: linear-gradient(45deg, #e50914, #ff2a2a);
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(255,0,0,0.6);
+}
+
+.btn-secondary {
+  background: #333;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #444;
+}
+
+/* CATEGORÍAS */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.category-item {
+  background: #222;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.category-item:hover {
+  background: #333;
+}
+
+/* EPISODIOS */
+.episode-item {
+  background: #222;
+  padding: 6px 10px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.episode-item button {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+}
+
+/* LISTA PANEL */
+.admin-list {
+  width: 420px;
+  max-height: 650px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+/* SCROLL BONITO */
+.admin-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-list::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+/* BUSCADOR */
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: #222;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.search-input:focus {
+  border-color: red;
+  outline: none;
+}
+
+/* CARDS */
+.admin-card {
+  display: flex;
+  gap: 12px;
+  background: #181818;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  align-items: center;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(255,0,0,0.2);
+}
+
+/* IMAGEN */
+.admin-card img {
+  width: 70px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* INFO */
+.admin-card h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* BOTONES CARD */
+.admin-card button {
+  margin-top: 5px;
+  margin-right: 5px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* EDIT */
+.admin-card button:first-of-type {
+  background: #3498db;
+  color: white;
+}
+
+/* DELETE */
+.admin-card button:last-of-type {
+  background: #e74c3c;
+  color: white;
+}
+
+/* HOVER BOTONES */
+.admin-card button:hover {
+  opacity: 0.8;
+}

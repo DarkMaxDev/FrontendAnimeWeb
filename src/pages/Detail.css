@@ -1,0 +1,350 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.detail-container {
+  background: #0a0a0a;
+  min-height: 100vh;
+  color: white;
+  padding-bottom: 50px;
+}
+
+/* --- LAYOUT DE DOS COLUMNAS --- */
+.detail-layout {
+  display: flex;
+  flex-direction: column;
+  max-width: 1450px;
+  margin: 0 auto;
+  gap: 25px;
+  padding: 20px 2%;
+}
+
+@media (min-width: 992px) {
+  .detail-layout {
+    flex-direction: row;
+  }
+}
+
+.main-col {
+  flex: 3.5;
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px;
+  width: 100%;
+}
+
+/* --- REPRODUCTOR (16:9) --- */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  background-color: #000;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  border: 1px solid #252525;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* --- CAJAS DE INFORMACIÓN GENERAL --- */
+.info-box, .comments-section, .sidebar-card, .episodes-container {
+  background: #111111 !important;
+  border: 1px solid #1f1f1f !important; 
+  border-radius: 4px !important; 
+  padding: 20px !important;
+  margin-bottom: 20px;
+}
+
+.anime-title {
+  font-size: 1.8rem !important;
+  letter-spacing: -0.5px;
+  color: #e50914;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.anime-description {
+  font-size: 1.05rem !important;
+  line-height: 1.8;
+  color: #ddd;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  color: #aaa;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* --- CATEGORÍAS Y FAVORITOS --- */
+.categories-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cat-badge {
+  background: #333;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  color: #fff;
+}
+
+.fav-btn {
+  background: #2a2a2a !important; 
+  color: white;
+  border: none;
+  border-radius: 3px !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 0.8rem !important;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.fav-btn:hover {
+  background: #e50914 !important;
+  transform: scale(1.05);
+}
+
+/* --- SECCIÓN DE EPISODIOS --- */
+.episodes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e50914;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.episodes-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.episode-item {
+  background: #1a1a1a;
+  border: 1px solid #282828;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  overflow: hidden; /* Para que el botón respete el borde redondeado */
+}
+
+.episode-item:hover {
+  background: #e50914;
+  border-color: #e50914;
+  transform: translateY(-2px);
+}
+
+/* Nuevo estilo para el botón que cambia el video */
+.episode-btn-action {
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  outline: none;
+}
+
+.ep-number {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  pointer-events: none; /* Evita que el texto interfiera con el click */
+}
+
+/* --- COMENTARIOS --- */
+.comment-form {
+  overflow: hidden; /* Limpia el float del botón */
+}
+
+.comment-textarea {
+  background: #1a1a1a;
+  color: white;
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 100px;
+  outline: none;
+  width: 100%;
+  margin-top: 15px;
+  resize: vertical;
+}
+
+.send-btn {
+  background: #e50914;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  float: right;
+}
+
+.comment-card {
+  position: relative;
+  background: #1c1c1c;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+
+.comment-text {
+  color: #bbb;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+/* --- SIDEBAR --- */
+.sidebar-col {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.sidebar-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 8px;
+}
+
+.sidebar-img {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.sidebar-name {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.sidebar-meta {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* --- SCROLLBAR --- */
+.episodes-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.episodes-grid::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+.episode-item.active {
+  background: #e50914;
+  border-color: #e50914;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.4);
+  transform: scale(1.02);
+}
+
+.episode-item.active .ep-number {
+  color: #fff;
+  font-weight: 800;
+}
+.fav-toggle-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: #ff4d4d;
+  font-size: 18px;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10; /* 👈 IMPORTANTE */
+}
+.fav-btn-detail {
+  margin-top: 15px;
+  background: #e50914;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fav-btn-detail:hover {
+  background: #ff2a2a;
+}
+
+.fav-toggle-btn:hover {
+  transform: scale(1.2);
+}
+.anime-card {
+  position: relative; /* 👈 ESTO LO ARREGLA */
+}
+.delete-comment-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+}
+
+.delete-comment-btn:hover {
+  color: white;
+}

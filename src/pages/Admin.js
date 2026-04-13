@@ -40,23 +40,40 @@ const Admin = () => {
     fetchData();
   }, []);
 
+  // 🔥 CARGAR DATOS EN FORM AL EDITAR
+  const handleEdit = (anime) => {
+    setFormData({
+      titulo: anime.titulo || '',
+      descripcion: anime.descripcion || '',
+      imagen: anime.imagen || '',
+      linkTrailer: anime.linkTrailer || '',
+      enEmision: anime.enEmision ?? true,
+      categorias: anime.categorias?.map(c => c._id || c) || [],
+      episodios: anime.episodios || []
+    });
+
+    setEditingId(anime._id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // ➕ AGREGAR EPISODIO
   const agregarEpisodio = () => {
     if (!episodioActual.numero || !episodioActual.linkVideo) return;
 
+    const nuevo = {
+      ...episodioActual,
+      numero: Number(episodioActual.numero)
+    };
+
     setFormData(prev => ({
       ...prev,
-      episodios: [
-        ...prev.episodios,
-        {
-          ...episodioActual,
-          numero: Number(episodioActual.numero)
-        }
-      ]
+      episodios: [...prev.episodios, nuevo]
     }));
 
     setEpisodioActual({ numero: '', tituloEpisodio: '', linkVideo: '' });
   };
 
+  // ❌ ELIMINAR EPISODIO
   const eliminarEpisodio = (index) => {
     setFormData(prev => ({
       ...prev,
@@ -64,6 +81,7 @@ const Admin = () => {
     }));
   };
 
+  // 💾 GUARDAR / ACTUALIZAR
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -84,6 +102,7 @@ const Admin = () => {
         await API.post('/animes', payload);
       }
 
+      // reset form
       setFormData({
         titulo: '',
         descripcion: '',
@@ -111,7 +130,7 @@ const Admin = () => {
   return (
     <div className="admin-container">
 
-      {/* FORM PANEL */}
+      {/* FORM */}
       <form onSubmit={handleSubmit} className="admin-form">
 
         <h2>Panel Admin</h2>
@@ -201,7 +220,13 @@ const Admin = () => {
           {formData.episodios.map((ep, i) => (
             <div key={i} className="episode-item">
               Ep {ep.numero} - {ep.tituloEpisodio}
-              <button type="button" onClick={() => eliminarEpisodio(i)}>✖</button>
+
+              <button
+                type="button"
+                onClick={() => eliminarEpisodio(i)}
+              >
+                ✖
+              </button>
             </div>
           ))}
         </div>
@@ -212,7 +237,7 @@ const Admin = () => {
 
       </form>
 
-      {/* LISTA PANEL */}
+      {/* LISTA */}
       <div className="admin-list">
 
         <input
@@ -230,7 +255,7 @@ const Admin = () => {
             <div>
               <h4>{anime.titulo}</h4>
 
-              <button onClick={() => setEditingId(anime._id)}>
+              <button onClick={() => handleEdit(anime)}>
                 ✏️
               </button>
 

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import API from '../api';
-import './Login.css'; // Reutilizamos el CSS de Login para mantener la estética
+import './Login.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    nombre: '',
+    username: '', // Cambiado de 'nombre' a 'username'
     email: '',
     password: ''
   });
@@ -15,10 +15,12 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Ahora enviamos { username, email, password } que es lo que pide tu modelo
       await API.post('/auth/register', formData);
       alert('Registro exitoso. Ahora puedes iniciar sesión.');
       navigate('/login');
     } catch (err) {
+      // Si el error es porque el username o email ya existen, el backend avisará aquí
       alert(err.response?.data?.message || 'Error al registrar usuario');
     }
   };
@@ -37,7 +39,8 @@ const Register = () => {
                 placeholder="Nombre de usuario" 
                 className="login-input"
                 style={{ paddingLeft: '40px', width: '100%' }}
-                onChange={(e) => setFormData({...formData, nombre: e.target.value})} 
+                // Cambiado para actualizar 'username'
+                onChange={(e) => setFormData({...formData, username: e.target.value})} 
                 required
               />
             </div>

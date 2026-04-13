@@ -13,7 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // 🔥 FIX REAL: evita spam al backend con limiter
+  // 🔥 Cargar categorías con cache (evita 429)
   const fetchCategories = async () => {
     try {
       const cached = sessionStorage.getItem('categories');
@@ -24,12 +24,9 @@ const Navbar = () => {
       }
 
       const res = await API.get('/categories');
-
       const data = res.data || [];
 
       setCategories(data);
-
-      // sessionStorage (mejor que localStorage para evitar bugs viejos)
       sessionStorage.setItem('categories', JSON.stringify(data));
 
     } catch (err) {
@@ -37,37 +34,40 @@ const Navbar = () => {
     }
   };
 
+  // 🔥 sincronizar usuario SIEMPRE correctamente
   useEffect(() => {
     fetchCategories();
 
-    const updateUserData = () => {
-      const loggedInUser = localStorage.getItem('user');
-
-      if (loggedInUser) {
-        try {
-          setUser(JSON.parse(loggedInUser));
-        } catch {
-          setUser(null);
-        }
-      } else {
+    const syncUser = () => {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        setUser(storedUser || null);
+      } catch {
         setUser(null);
       }
     };
 
-    updateUserData();
+    syncUser();
 
-    window.addEventListener('storage', updateUserData);
-    window.addEventListener('loginStateChange', updateUserData);
+    window.addEventListener('storage', syncUser);
+    window.addEventListener('loginStateChange', syncUser);
 
     return () => {
-      window.removeEventListener('storage', updateUserData);
-      window.removeEventListener('loginStateChange', updateUserData);
+      window.removeEventListener('storage', syncUser);
+      window.removeEventListener('loginStateChange', syncUser);
     };
   }, []);
 
-  const rawRole = user?.role || localStorage.getItem('role');
-  const isAdmin =
-    rawRole?.replace(/"/g, '').trim().toLowerCase() === 'admin';
+  // 🔥 FIX DEFINITIVO ADMIN (mobile + desktop safe)
+  const isAdmin = (() => {
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+      const role = user?.role || storedUser?.role;
+      return role?.toLowerCase?.() === 'admin';
+    } catch {
+      return false;
+    }
+  })();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -78,14 +78,17 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.removeItem('categories'); // 🔥 FIX IMPORTANTE
-    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('categories');
 
+    setUser(null);
     navigate('/login');
     window.location.reload();
   };
 
+  // cerrar dropdown fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -97,6 +100,7 @@ const Navbar = () => {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+
     return () =>
       document.removeEventListener('mousedown', handleClickOutside);
   }, []);

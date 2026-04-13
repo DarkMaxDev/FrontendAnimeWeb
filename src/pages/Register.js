@@ -69,7 +69,8 @@ const Register = () => {
         left: '12px', 
         top: '50%', 
         transform: 'translateY(-50%)', 
-        color: '#666' 
+        color: '#666',
+        zIndex: 1 // Para que el icono no quede detrás del fondo
       }} 
     />
     <input 
@@ -79,15 +80,17 @@ const Register = () => {
       style={{ 
         paddingLeft: '40px', 
         width: '100%',
-        backgroundColor: 'transparent', // O el color exacto de tus otros inputs
-        color: 'inherit'                // Para que use el color de texto del padre
+        backgroundColor: '#f0f7ff', 
+        color: '#000',             
+        border: 'none',           
+        height: '45px',          
+        borderRadius: '5px'        
       }}
       onChange={(e) => setFormData({...formData, email: e.target.value})} 
       required
     />
   </div>
 </div>
-
           <button type="submit" className="login-submit-btn">
             <UserPlus size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
             REGISTRARME

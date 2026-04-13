@@ -14,12 +14,18 @@ const Login = () => {
     try {
       const res = await API.post('/auth/login', { email, password });
       
-      // Guardamos token, rol y el objeto usuario para el Navbar
+      // Limpiamos cualquier rastro de sesiones anteriores
+      localStorage.clear();
+      
+      // Guardamos la información que el backend nos responde
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('user', JSON.stringify(res.data.user || { role: res.data.role }));
       
+      // Redirigimos al Home
       navigate('/'); 
+      
+      // Recargamos para que el App y el Navbar lean los nuevos datos del localStorage
       window.location.reload(); 
     } catch (err) {
       alert('Error: Credenciales incorrectas.');

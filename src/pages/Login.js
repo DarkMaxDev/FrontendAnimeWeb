@@ -14,18 +14,15 @@ const Login = () => {
     try {
       const res = await API.post('/auth/login', { email, password });
       
-      // Limpiamos cualquier rastro de sesiones anteriores
+      // Limpieza de seguridad
       localStorage.clear();
       
-      // Guardamos la información que el backend nos responde
+      // Guardado consistente
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.role);
+      localStorage.setItem('role', res.data.role); // Importante: que el backend envíe 'admin'
       localStorage.setItem('user', JSON.stringify(res.data.user || { role: res.data.role }));
       
-      // Redirigimos al Home
       navigate('/'); 
-      
-      // Recargamos para que el App y el Navbar lean los nuevos datos del localStorage
       window.location.reload(); 
     } catch (err) {
       alert('Error: Credenciales incorrectas.');
@@ -36,44 +33,36 @@ const Login = () => {
     <div className="login-page-wrapper">
       <div className="login-card">
         <h2>INICIAR SESIÓN</h2>
-        
         <form onSubmit={handleSubmit} className="login-form">
           <div className="login-input-group">
-            <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input 
-                type="email" 
-                placeholder="Correo electrónico" 
-                className="login-input"
-                style={{ paddingLeft: '40px', width: '100%' }}
-                onChange={(e) => setEmail(e.target.value)} 
-                required
-              />
-            </div>
+            <Mail size={18} className="input-icon-login" />
+            <input 
+              type="email" 
+              placeholder="Correo electrónico" 
+              className="login-input"
+              onChange={(e) => setEmail(e.target.value)} 
+              required
+            />
           </div>
 
           <div className="login-input-group">
-            <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input 
-                type="password" 
-                placeholder="Contraseña" 
-                className="login-input"
-                style={{ paddingLeft: '40px', width: '100%' }}
-                onChange={(e) => setPassword(e.target.value)} 
-                required
-              />
-            </div>
+            <Lock size={18} className="input-icon-login" />
+            <input 
+              type="password" 
+              placeholder="Contraseña" 
+              className="login-input"
+              onChange={(e) => setPassword(e.target.value)} 
+              required
+            />
           </div>
 
           <button type="submit" className="login-submit-btn">
-            <LogIn size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <LogIn size={18} style={{ marginRight: '8px' }} />
             ENTRAR
           </button>
         </form>
-
         <div className="login-footer">
-          ¿Nuevo en AnimeFlow? <span onClick={() => navigate('/regis')} style={{ cursor: 'pointer', color: '#ff4757', fontWeight: 'bold' }}>Regístrate aquí</span>
+          ¿Nuevo? <span onClick={() => navigate('/regis')} style={{ cursor: 'pointer', color: '#ff4757', fontWeight: 'bold' }}>Regístrate aquí</span>
         </div>
       </div>
     </div>

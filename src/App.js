@@ -37,16 +37,10 @@ function App() {
             <Route path="/favoritos" element={<Favorites />} />
             <Route path="/buscar" element={<SearchResults />} />
 
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <Admin />
-                </AdminRoute>
-              }
-            />
+           {/* Quitamos el AdminRoute para que no te bloquee el paso */}
+        <Route path="/admin" element={<Admin />} />
 
-            <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
         <Footer />

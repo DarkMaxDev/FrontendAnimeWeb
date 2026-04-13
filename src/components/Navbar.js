@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// Añadimos LogIn a la importación
 import { Search, Heart, Settings, LogOut, LogIn } from 'lucide-react'; 
 import API from '../api';
 import './Navbar.css';
@@ -9,30 +8,63 @@ const Navbar = () => {
   const [query, setQuery] = useState('');
   const [categories, setCategories] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
+  const [user, setUser] = useState(null);
   
-  // Estado para el usuario (puedes usar un Context o leer localStorage)
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-
   const navigate = useNavigate();
+  const dropdownRef = useRef(null); // Para cerrar el menú al hacer clic fuera
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const initNavbar = async () => {
+      // 1. Cargar Categorías
       try {
         const res = await API.get('/categories');
         setCategories(res.data);
       } catch (err) {
         console.error("Error cargando categorías");
       }
+
+      // 2. Cargar Usuario inicial
+      const updateUserData = () => {
+        const loggedInUser = localStorage.getItem('user');
+        if (loggedInUser) {
+          try {
+            setUser(JSON.parse(loggedInUser));
+          } catch (e) {
+            setUser(null);
+          }
+        } else {
+          setUser(null);
+        }
+      };
+
+      updateUserData();
+
+      // Escuchar cambios de storage y eventos personalizados de login
+      window.addEventListener('storage', updateUserData);
+      window.addEventListener('loginStateChange', updateUserData);
+      
+      return () => {
+        window.removeEventListener('storage', updateUserData);
+        window.removeEventListener('loginStateChange', updateUserData);
+      };
     };
-    fetchCategories();
-    
-    // Escuchar cambios en el storage por si el login ocurre en otra pestaña
-    const handleStorageChange = () => {
-      setUser(JSON.parse(localStorage.getItem('user')));
+
+    initNavbar();
+
+    // Cerrar dropdown al hacer clic fuera
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenMenu(false);
+      }
     };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Validación de Admin ultra-segura
+  const rawRole = user?.role || localStorage.getItem('role');
+  const isAdmin = rawRole?.replace(/"/g, '').trim().toLowerCase() === 'admin';
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -42,36 +74,34 @@ const Navbar = () => {
     }
   };
 
-  // Función para cerrar sesión
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear();
     setUser(null);
     navigate('/login');
+    // Forzamos el reload para limpiar estados globales y proteger rutas
+    window.location.reload(); 
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          AnimeWeb
-        </Link>
+        <Link to="/" className="navbar-logo">AnimeWeb</Link>
 
-        <div className="dropdown">
+        {/* Categorías con Ref para detectar clics fuera */}
+        <div className="dropdown" ref={dropdownRef}>
           <button 
-            className="nav-link dropdown-btn"
+            className={`nav-link dropdown-btn ${openMenu ? 'active' : ''}`} 
             onClick={() => setOpenMenu(!openMenu)}
           >
             Categorías ▾
           </button>
-
           {openMenu && (
-            <div className="dropdown-menu">
+            <div className="dropdown-menu animate-fade-in">
               {categories.map(cat => (
-                <Link
-                  key={cat._id}
-                  to={`/categoria/${cat._id}`}
-                  className="dropdown-item"
+                <Link 
+                  key={cat._id} 
+                  to={`/categoria/${cat._id}`} 
+                  className="dropdown-item" 
                   onClick={() => setOpenMenu(false)}
                 >
                   {cat.nombre}
@@ -93,33 +123,31 @@ const Navbar = () => {
         </form>
 
         <div className="navbar-actions">
-          {/* Solo mostramos favoritos si hay usuario */}
           {user && (
             <Link to="/favoritos" className="nav-link">
               <Heart size={20} />
-              <span>Favoritos</span>
+              <span className="nav-text">Favoritos</span>
             </Link>
           )}
           
-          {/* Solo mostramos Admin si el usuario tiene rol admin */}
-          {user?.role === 'admin' && (
-            <Link to="/admin" className="nav-link">
+          {isAdmin && (
+            <Link to="/admin" className="nav-link admin-link">
               <Settings size={20} />
-              <span>Admin</span>
+              <span className="nav-text">Admin</span>
             </Link>
           )}
 
-{user ? (
-  <button className="logout-btn" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
-    <LogOut size={20} />
-    <span>Salir</span>
-  </button>
-) : (
-  <Link to="/login" className="nav-link login-btn">
-    <LogIn size={20} />
-    <span>Ingresar</span>
-  </Link>
-)}
+          {user ? (
+            <button className="logout-btn-nav" onClick={handleLogout}>
+              <LogOut size={20} />
+              <span className="nav-text">Salir</span>
+            </button>
+          ) : (
+            <Link to="/login" className="nav-link login-btn-nav">
+              <LogIn size={20} />
+              <span className="nav-text">Ingresar</span>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

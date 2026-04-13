@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogIn, Mail, Lock } from 'lucide-react';
 import API from '../api';
-import './Login.css'; // <--- Importación del CSS
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,9 +17,6 @@ const Login = () => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.role);
       
-      // Personalización: Podrías guardar el nombre si tu API lo envía
-      // localStorage.setItem('username', res.data.username);
-
       navigate('/'); 
       window.location.reload(); 
     } catch (err) {

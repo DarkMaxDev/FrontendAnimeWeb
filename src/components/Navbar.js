@@ -11,7 +11,6 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  // 🔥 Cargar categorías
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -37,12 +36,11 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
 
-        {/* LOGO */}
         <Link to="/" className="navbar-logo">
           AnimeWeb
         </Link>
 
-        {/* 🔽 DROPDOWN CATEGORÍAS (FIX) */}
+
         <div className="dropdown">
           <button 
             className="nav-link dropdown-btn"
@@ -67,7 +65,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* BUSCADOR */}
         <form className="navbar-search-wrapper" onSubmit={handleSearch}>
           <Search className="search-icon" size={18} />
           <input 
@@ -79,7 +76,6 @@ const Navbar = () => {
           />
         </form>
 
-        {/* ACCIONES */}
         <div className="navbar-actions">
           <Link to="/favoritos" className="nav-link">
             <Heart size={20} />

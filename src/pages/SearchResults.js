@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import API from '../api';
-import './SearchResults.css'; // Asegúrate de crear este CSS o usar tus clases globales
+import './SearchResults.css'; 
 
 const SearchResults = () => {
   const [resultados, setResultados] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Extraemos el query de la URL (?q=valor)
   const { search } = useLocation();
   const query = new URLSearchParams(search).get('q');
 
@@ -15,7 +14,6 @@ const SearchResults = () => {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        // Llamada al endpoint de búsqueda que definimos en el Backend
         const res = await API.get(`/animes/buscar?q=${query}`);
         setResultados(res.data);
       } catch (err) {

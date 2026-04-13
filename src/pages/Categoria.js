@@ -14,7 +14,7 @@ const Categoria = () => {
 
         const filtrados = res.data.filter(anime =>
           anime.categorias?.some(c =>
-            (c._id || c) === id // 🔥 soporta objeto o string
+            (c._id || c) === id 
           )
         );
 

@@ -69,7 +69,6 @@ const Home = () => {
   })}
 </div>
 
-      {/* ANIMES EN TENDENCIA */}
       <h2 className="home-title">Animes en Tendencia</h2>
 
       <div className="home-grid">

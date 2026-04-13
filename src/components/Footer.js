@@ -5,13 +5,11 @@ import './Footer.css';
 
 const Footer = () => {
   const year = new Date().getFullYear();
-
   return (
     <footer className="footer">
 
       <div className="footer-container">
 
-        {/* LOGO + DESCRIPCIÓN */}
         <div className="footer-left">
           <Link to="/" className="footer-logo">
             <Play size={18} fill="white" />
@@ -23,7 +21,6 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* LINKS */}
         <div className="footer-links">
           <h4>Explorar</h4>
           <Link to="/">Inicio</Link>
@@ -39,11 +36,10 @@ const Footer = () => {
 
       </div>
 
-      {/* BOTTOM */}
       <div className="footer-bottom">
         <p>© {year} AnimeWeb</p>
         <span>
-          Hecho con <Heart size={14} color="#e50914" fill="#e50914" /> para fans del anime
+          Hecho con <Heart size={14} color="#e50914" fill="#e50914" /> 
         </span>
       </div>
 

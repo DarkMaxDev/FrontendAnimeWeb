@@ -147,7 +147,6 @@ const Admin = () => {
     alert(" Error en la operación (ver consola)");
   }
 };
-  // 🔍 FILTRO
   const filteredAnimes = animes.filter(anime =>
     anime.titulo.toLowerCase().includes(search.toLowerCase())
   );
@@ -155,7 +154,6 @@ const Admin = () => {
   return (
     <div className="admin-container">
 
-      {/* FORM */}
       <form onSubmit={handleSubmit} className="admin-form">
         <h2> Panel Admin</h2>
 
@@ -188,7 +186,6 @@ const Admin = () => {
           onChange={e => setFormData({...formData, linkTrailer: e.target.value})}
         />
 
-        {/*  Categorías múltiples */}
         <label>Categorías:</label>
         <div className="categories">
           {allCategories.map(cat => (
@@ -212,7 +209,6 @@ const Admin = () => {
           ))}
         </div>
 
-        {/* EPISODIOS */}
         <h3>Episodios</h3>
 
         <input
@@ -254,7 +250,6 @@ const Admin = () => {
         </button>
       </form>
 
-      {/* LISTA */}
       <div className="admin-list">
         <h2> Animes</h2>
 

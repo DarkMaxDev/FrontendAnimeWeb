@@ -4,30 +4,32 @@ import { LogIn, Mail, Lock } from 'lucide-react';
 import API from '../api';
 import './Login.css';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await API.post('/auth/login', { email, password });
+    
+    console.log("Respuesta del servidor:", res.data);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await API.post('/auth/login', { email, password });
-      
-      // Limpieza de seguridad
-      localStorage.clear();
-      
-      // Guardado consistente
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.role); // Importante: que el backend envíe 'admin'
-      localStorage.setItem('user', JSON.stringify(res.data.user || { role: res.data.role }));
-      
-      navigate('/'); 
-      window.location.reload(); 
-    } catch (err) {
-      alert('Error: Credenciales incorrectas.');
+    localStorage.clear();
+
+    const token = res.data.token;
+    const role = res.data.role || res.data.user?.role;
+
+    if (!role) {
+      console.error("¡ALERTA! El servidor no envió el rol.");
     }
-  };
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role); 
+    localStorage.setItem('user', JSON.stringify(res.data.user || { role: role }));
+    
+    navigate('/'); 
+    window.location.reload(); 
+  } catch (err) {
+    alert('Error: Credenciales incorrectas.');
+  }
+};
 
   return (
     <div className="login-page-wrapper">
@@ -67,6 +69,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+
 
 export default Login;

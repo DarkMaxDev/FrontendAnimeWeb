@@ -109,17 +109,17 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user ? (
-            <button className="logout-btn" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <LogOut size={20} />
-              <span>Salir</span>
-            </button>
-          ) : (
-            <Link to="/regis" className="nav-link login-btn">
-              <LogIn size={20} />
-              <span>Ingresar</span>
-            </Link>
-          )}
+{user ? (
+  <button className="logout-btn" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+    <LogOut size={20} />
+    <span>Salir</span>
+  </button>
+) : (
+  <Link to="/login" className="nav-link login-btn">
+    <LogIn size={20} />
+    <span>Ingresar</span>
+  </Link>
+)}
         </div>
       </div>
     </nav>

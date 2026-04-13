@@ -62,7 +62,6 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Validación de Admin ultra-segura
   const rawRole = user?.role || localStorage.getItem('role');
   const isAdmin = rawRole?.replace(/"/g, '').trim().toLowerCase() === 'admin';
 

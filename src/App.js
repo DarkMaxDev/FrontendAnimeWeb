@@ -12,14 +12,8 @@ import Categoria from './pages/Categoria';
 
 const AdminRoute = ({ children }) => {
   const rawRole = localStorage.getItem('role');
-  
-  // Si no hay nada en el storage todavía
-  if (!rawRole) {
-    console.log("Ruta protegida: No se encontró ningún rol aún.");
-    return <Navigate to="/login" />;
-  }
+  const role = rawRole ? rawRole.replace(/"/g, '').trim().toLowerCase() : null;
 
-  const role = rawRole.replace(/"/g, '').trim().toLowerCase();
   console.log("Accediendo a ruta protegida. Rol actual:", role);
 
   return role === 'admin' ? children : <Navigate to="/" />;
@@ -32,19 +26,27 @@ function App() {
         <Navbar />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/regis" element={<Register />} />
-            <Route path="/anime/:id" element={<Detail />} />
-            <Route path="/categoria/:id" element={<Categoria />} />
-            <Route path="/favoritos" element={<Favorites />} />
-            <Route path="/buscar" element={<SearchResults />} />
+  <Route path="/" element={<Home />} />
+  <Route path="/login" element={<Login />} />
+  <Route path="/regis" element={<Register />} />
+  <Route path="/anime/:id" element={<Detail />} />
+  <Route path="/categoria/:id" element={<Categoria />} />
+  <Route path="/favoritos" element={<Favorites />} />
+  <Route path="/buscar" element={<SearchResults />} />
 
-           {/* Quitamos el AdminRoute para que no te bloquee el paso */}
-        <Route path="/admin" element={<Admin />} />
+           
+  {/* PROTEGIDA */}
+  <Route
+    path="/admin"
+    element={
+      <AdminRoute>
+        <Admin />
+      </AdminRoute>
+    }
+  />
 
-        <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+  <Route path="*" element={<Navigate to="/" />} />
+</Routes>
         </main>
         <Footer />
       </div>

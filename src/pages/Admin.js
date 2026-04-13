@@ -24,15 +24,14 @@ const Admin = () => {
   const [editingId, setEditingId] = useState(null);
   const [search, setSearch] = useState('');
 
-  // 📥 Cargar datos
   useEffect(() => {
     const fetchData = async () => {
       try {
         const catRes = await API.get('/categories');
         const animeRes = await API.get('/animes');
 
-        setAllCategories(catRes.data);
-        setAnimes(animeRes.data);
+        setAllCategories(catRes.data || []);
+        setAnimes(animeRes.data || []);
       } catch (err) {
         console.error(err);
       }
@@ -41,152 +40,109 @@ const Admin = () => {
     fetchData();
   }, []);
 
-  // 🎬 Agregar episodio
   const agregarEpisodio = () => {
-    if (!episodioActual.numero || !episodioActual.linkVideo) {
-      alert('Completa número y link');
-      return;
-    }
+    if (!episodioActual.numero || !episodioActual.linkVideo) return;
 
     setFormData(prev => ({
       ...prev,
-      episodios: [...prev.episodios, episodioActual]
+      episodios: [
+        ...prev.episodios,
+        {
+          ...episodioActual,
+          numero: Number(episodioActual.numero)
+        }
+      ]
     }));
 
-    setEpisodioActual({
-      numero: '',
-      tituloEpisodio: '',
-      linkVideo: ''
-    });
+    setEpisodioActual({ numero: '', tituloEpisodio: '', linkVideo: '' });
   };
 
-  // ❌ Eliminar episodio
   const eliminarEpisodio = (index) => {
-    const nuevos = formData.episodios.filter((_, i) => i !== index);
-    setFormData({ ...formData, episodios: nuevos });
+    setFormData(prev => ({
+      ...prev,
+      episodios: prev.episodios.filter((_, i) => i !== index)
+    }));
   };
 
-  // ✏️ Editar anime
-  const handleEdit = (anime) => {
-    setFormData({
-      titulo: anime.titulo,
-      descripcion: anime.descripcion,
-      imagen: anime.imagen,
-      linkTrailer: anime.linkTrailer,
-      enEmision: anime.enEmision,
-      categorias: anime.categorias?.map(c => c._id || c) || [],
-      episodios: anime.episodios || []
-    });
-
-    setEditingId(anime._id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // 🗑 Eliminar anime
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Eliminar este anime?")) return;
-
-    try {
-      await API.delete(`/animes/${id}`);
-      setAnimes(animes.filter(a => a._id !== id));
-    } catch {
-      alert("Error al eliminar");
-    }
-  };
-
-  // 🚀 Crear / actualizar
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
     const payload = {
-      titulo: formData.titulo,
-      descripcion: formData.descripcion,
-      imagen: formData.imagen,
-      linkTrailer: formData.linkTrailer,
-      enEmision: formData.enEmision,
-      categorias: formData.categorias,
-
+      ...formData,
       episodios: formData.episodios.map(ep => ({
         numero: Number(ep.numero),
         tituloEpisodio: ep.tituloEpisodio,
         linkVideo: ep.linkVideo
       })),
-
       totalCapitulos: formData.episodios.length
     };
 
-    console.log("ENVIANDO:", payload); // 👈 debug
+    try {
+      if (editingId) {
+        await API.put(`/animes/${editingId}`, payload);
+      } else {
+        await API.post('/animes', payload);
+      }
 
-    if (editingId) {
-      await API.put(`/animes/${editingId}`, payload);
-      alert("✏️ Anime actualizado");
-    } else {
-      await API.post('/animes', payload);
-      alert(" Anime agregado");
+      setFormData({
+        titulo: '',
+        descripcion: '',
+        imagen: '',
+        linkTrailer: '',
+        enEmision: true,
+        categorias: [],
+        episodios: []
+      });
+
+      setEditingId(null);
+
+      const res = await API.get('/animes');
+      setAnimes(res.data || []);
+
+    } catch (err) {
+      console.error(err);
     }
+  };
 
-    // RESET
-    setFormData({
-      titulo: '',
-      descripcion: '',
-      imagen: '',
-      linkTrailer: '',
-      enEmision: true,
-      categorias: [],
-      episodios: []
-    });
-
-    setEditingId(null);
-
-    const res = await API.get('/animes');
-    setAnimes(res.data);
-
-  } catch (err) {
-    console.error("ERROR BACKEND:", err.response?.data || err);
-    alert(" Error en la operación (ver consola)");
-  }
-};
-  const filteredAnimes = animes.filter(anime =>
-    anime.titulo.toLowerCase().includes(search.toLowerCase())
+  const filteredAnimes = animes.filter(a =>
+    a.titulo?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="admin-container">
 
+      {/* FORM PANEL */}
       <form onSubmit={handleSubmit} className="admin-form">
-        <h2> Panel Admin</h2>
+
+        <h2>Panel Admin</h2>
 
         <input
-          type="text"
           placeholder="Título"
           value={formData.titulo}
-          onChange={e => setFormData({...formData, titulo: e.target.value})}
-          required
+          onChange={e => setFormData({ ...formData, titulo: e.target.value })}
         />
 
         <textarea
           placeholder="Descripción"
           value={formData.descripcion}
-          onChange={e => setFormData({...formData, descripcion: e.target.value})}
+          onChange={e => setFormData({ ...formData, descripcion: e.target.value })}
         />
 
         <input
-          type="text"
-          placeholder="Imagen URL"
+          placeholder="Imagen"
           value={formData.imagen}
-          onChange={e => setFormData({...formData, imagen: e.target.value})}
-          required
+          onChange={e => setFormData({ ...formData, imagen: e.target.value })}
         />
 
         <input
-          type="text"
           placeholder="Trailer"
           value={formData.linkTrailer}
-          onChange={e => setFormData({...formData, linkTrailer: e.target.value})}
+          onChange={e => setFormData({ ...formData, linkTrailer: e.target.value })}
         />
 
-        <label>Categorías:</label>
+        {/* CATEGORÍAS */}
+        <h3>Categorías</h3>
+
         <div className="categories">
           {allCategories.map(cat => (
             <label key={cat._id} className="category-item">
@@ -209,70 +165,83 @@ const Admin = () => {
           ))}
         </div>
 
+        {/* EPISODIOS */}
         <h3>Episodios</h3>
 
         <input
           type="number"
           placeholder="Número"
           value={episodioActual.numero}
-          onChange={e => setEpisodioActual({...episodioActual, numero: e.target.value})}
+          onChange={e =>
+            setEpisodioActual({ ...episodioActual, numero: e.target.value })
+          }
         />
 
         <input
-          type="text"
           placeholder="Título episodio"
           value={episodioActual.tituloEpisodio}
-          onChange={e => setEpisodioActual({...episodioActual, tituloEpisodio: e.target.value})}
+          onChange={e =>
+            setEpisodioActual({ ...episodioActual, tituloEpisodio: e.target.value })
+          }
         />
 
         <input
-          type="text"
           placeholder="Video URL"
           value={episodioActual.linkVideo}
-          onChange={e => setEpisodioActual({...episodioActual, linkVideo: e.target.value})}
+          onChange={e =>
+            setEpisodioActual({ ...episodioActual, linkVideo: e.target.value })
+          }
         />
 
-        <button type="button" onClick={agregarEpisodio} className="btn-secondary">
-           Agregar Episodio
+        <button type="button" className="btn-secondary" onClick={agregarEpisodio}>
+          Agregar Episodio
         </button>
 
-        <div className="episode-list">
+        <div>
           {formData.episodios.map((ep, i) => (
             <div key={i} className="episode-item">
               Ep {ep.numero} - {ep.tituloEpisodio}
-              <button onClick={() => eliminarEpisodio(i)}>✖</button>
+              <button type="button" onClick={() => eliminarEpisodio(i)}>✖</button>
             </div>
           ))}
         </div>
 
         <button type="submit" className="btn-primary">
-          {editingId ? "✏️ Actualizar Anime" : "🚀 Crear Anime"}
+          {editingId ? "Actualizar Anime" : "Crear Anime"}
         </button>
+
       </form>
 
+      {/* LISTA PANEL */}
       <div className="admin-list">
-        <h2> Animes</h2>
 
         <input
-          type="text"
-          placeholder="Buscar anime..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
           className="search-input"
+          placeholder="Buscar..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
         />
 
         {filteredAnimes.map(anime => (
           <div key={anime._id} className="admin-card">
-            <img src={anime.imagen} alt="" />
+
+            <img src={anime.imagen} alt={anime.titulo} />
 
             <div>
               <h4>{anime.titulo}</h4>
 
-              <button onClick={() => handleEdit(anime)}>✏️</button>
-              <button onClick={() => handleDelete(anime._id)}>🗑</button>
+              <button onClick={() => setEditingId(anime._id)}>
+                ✏️
+              </button>
+
+              <button onClick={() => API.delete(`/animes/${anime._id}`)}>
+                🗑
+              </button>
             </div>
+
           </div>
         ))}
+
       </div>
 
     </div>

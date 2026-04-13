@@ -10,13 +10,16 @@ import SearchResults from './pages/SearchResults';
 import Register from './pages/Register';
 import Categoria from './pages/Categoria';
 
-// Componente para proteger la ruta de Admin corregido
 const AdminRoute = ({ children }) => {
-  // Obtenemos el rol y limpiamos comillas o espacios accidentales
   const rawRole = localStorage.getItem('role');
-  const role = rawRole ? rawRole.replace(/"/g, '').trim().toLowerCase() : null;
+  
+  // Si no hay nada en el storage todavía
+  if (!rawRole) {
+    console.log("Ruta protegida: No se encontró ningún rol aún.");
+    return <Navigate to="/login" />;
+  }
 
-  // Verificación por consola para que puedas revisar si hay problemas (F12)
+  const role = rawRole.replace(/"/g, '').trim().toLowerCase();
   console.log("Accediendo a ruta protegida. Rol actual:", role);
 
   return role === 'admin' ? children : <Navigate to="/" />;
@@ -33,7 +36,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/regis" element={<Register />} />
             <Route path="/anime/:id" element={<Detail />} />
-            <Route path="/categoria/:id" element={<Categories />} />
+            <Route path="/categoria/:id" element={<Categoria />} />
             <Route path="/favoritos" element={<Favorites />} />
             <Route path="/buscar" element={<SearchResults />} />
 

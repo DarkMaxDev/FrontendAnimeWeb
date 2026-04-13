@@ -6,7 +6,7 @@ import './Login.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '', // Cambiado de 'nombre' a 'username'
+    username: '', // Coincide con tu modelo de MongoDB
     email: '',
     password: ''
   });
@@ -15,12 +15,10 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Ahora enviamos { username, email, password } que es lo que pide tu modelo
       await API.post('/auth/register', formData);
       alert('Registro exitoso. Ahora puedes iniciar sesión.');
       navigate('/login');
     } catch (err) {
-      // Si el error es porque el username o email ya existen, el backend avisará aquí
       alert(err.response?.data?.message || 'Error al registrar usuario');
     }
   };
@@ -31,74 +29,50 @@ const Register = () => {
         <h2>CREAR CUENTA</h2>
         
         <form onSubmit={handleSubmit} className="login-form">
+          {/* Campo: Usuario */}
           <div className="login-input-group">
-            <div style={{ position: 'relative' }}>
-              <User size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input 
-                type="text" 
-                placeholder="Nombre de usuario" 
-                className="login-input"
-                style={{ paddingLeft: '40px', width: '100%' }}
-                // Cambiado para actualizar 'username'
-                onChange={(e) => setFormData({...formData, username: e.target.value})} 
-                required
-              />
-            </div>
+            <User size={18} className="input-icon" />
+            <input 
+              type="text" 
+              placeholder="Nombre de usuario" 
+              className="login-input"
+              onChange={(e) => setFormData({...formData, username: e.target.value})} 
+              required
+            />
           </div>
 
+          {/* Campo: Email */}
           <div className="login-input-group">
-            <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input 
-                type="email" 
-                placeholder="Correo electrónico" 
-                className="login-input"
-                style={{ paddingLeft: '40px', width: '100%' }}
-                onChange={(e) => setFormData({...formData, email: e.target.value})} 
-                required
-              />
-            </div>
+            <Mail size={18} className="input-icon" />
+            <input 
+              type="email" 
+              placeholder="Correo electrónico" 
+              className="login-input"
+              onChange={(e) => setFormData({...formData, email: e.target.value})} 
+              required
+            />
           </div>
 
+          {/* Campo: Contraseña */}
           <div className="login-input-group">
-  <div style={{ position: 'relative' }}>
-    <Mail 
-      size={18} 
-      style={{ 
-        position: 'absolute', 
-        left: '12px', 
-        top: '50%', 
-        transform: 'translateY(-50%)', 
-        color: '#666',
-        zIndex: 1 // Para que el icono no quede detrás del fondo
-      }} 
-    />
-    <input 
-      type="email" 
-      placeholder="Correo electrónico" 
-      className="login-input"
-      style={{ 
-        paddingLeft: '40px', 
-        width: '100%',
-        backgroundColor: '#f0f7ff', 
-        color: '#000',             
-        border: 'none',           
-        height: '45px',          
-        borderRadius: '5px'        
-      }}
-      onChange={(e) => setFormData({...formData, email: e.target.value})} 
-      required
-    />
-  </div>
-</div>
+            <Lock size={18} className="input-icon" />
+            <input 
+              type="password" 
+              placeholder="Contraseña" 
+              className="login-input"
+              onChange={(e) => setFormData({...formData, password: e.target.value})} 
+              required
+            />
+          </div>
+
           <button type="submit" className="login-submit-btn">
-            <UserPlus size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+            <UserPlus size={18} className="btn-icon" />
             REGISTRARME
           </button>
         </form>
 
         <div className="login-footer">
-          ¿Ya tienes cuenta? <span onClick={() => navigate('/login')} style={{ cursor: 'pointer', color: '#ff4757', fontWeight: 'bold' }}>Inicia sesión aquí</span>
+          ¿Ya tienes cuenta? <span className="footer-link" onClick={() => navigate('/login')}>Inicia sesión aquí</span>
         </div>
       </div>
     </div>

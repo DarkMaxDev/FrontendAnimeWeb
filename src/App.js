@@ -33,7 +33,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/regis" element={<Register />} />
             <Route path="/anime/:id" element={<Detail />} />
-            <Route path="/categoria/:id" element={<Categoria />} />
+            <Route path="/categoria/:id" element={<Categories />} />
             <Route path="/favoritos" element={<Favorites />} />
             <Route path="/buscar" element={<SearchResults />} />
 

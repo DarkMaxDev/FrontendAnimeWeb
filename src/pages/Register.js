@@ -61,18 +61,32 @@ const Register = () => {
           </div>
 
           <div className="login-input-group">
-            <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input 
-                type="password" 
-                placeholder="Contraseña" 
-                className="login-input"
-                style={{ paddingLeft: '40px', width: '100%' }}
-                onChange={(e) => setFormData({...formData, password: e.target.value})} 
-                required
-              />
-            </div>
-          </div>
+  <div style={{ position: 'relative' }}>
+    <Mail 
+      size={18} 
+      style={{ 
+        position: 'absolute', 
+        left: '12px', 
+        top: '50%', 
+        transform: 'translateY(-50%)', 
+        color: '#666' 
+      }} 
+    />
+    <input 
+      type="email" 
+      placeholder="Correo electrónico" 
+      className="login-input"
+      style={{ 
+        paddingLeft: '40px', 
+        width: '100%',
+        backgroundColor: 'transparent', // O el color exacto de tus otros inputs
+        color: 'inherit'                // Para que use el color de texto del padre
+      }}
+      onChange={(e) => setFormData({...formData, email: e.target.value})} 
+      required
+    />
+  </div>
+</div>
 
           <button type="submit" className="login-submit-btn">
             <UserPlus size={18} style={{ marginRight: '8px', verticalAlign: 'middle' }} />

@@ -38,7 +38,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>© {year} AnimeWeb</p>
         <span>
-          Hecho con <Heart size={14} color="#e50914" fill="#e50914" /> 
+          Esta Pagina esta creada con fines de aprendizaje, los capitulos son de paginas externas. @derechos reservados 2026
         </span>
       </div>
 

@@ -17,7 +17,7 @@ const Footer = () => {
           </Link>
 
           <p className="footer-desc">
-            Disfruta de tus animes favoritos en HD, sin límites y siempre actualizado.
+            Esta Pagina esta creada con fines de aprendizaje, los capitulos son de paginas externas. derechos reservados 2026
           </p>
         </div>
 
@@ -38,7 +38,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>© {year} AnimeWeb</p>
         <span>
-          Esta Pagina esta creada con fines de aprendizaje, los capitulos son de paginas externas. @derechos reservados 2026
+          :3
         </span>
       </div>
 
